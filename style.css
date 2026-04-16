@@ -1,7 +1,5 @@
-/* REGISTER YOUR CUSTOM FONT */
 @font-face {
     font-family: 'Ndot55-Regular';
-    /* Ensure this filename matches your .otf file exactly */
     src: url('55.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
@@ -132,11 +130,4 @@ header h1 {
 
 .project-card:not(:hover) .project-info p {
     color: var(--dim-text);
-}
-
-footer {
-    margin-top: 8rem;
-    padding-bottom: 4rem;
-    color: var(--dim-text);
-    font-size: 0.8rem;
 }
