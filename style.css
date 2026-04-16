@@ -1,186 +1,142 @@
-html {
-    background-color: #fafafa;
-    transition: ease-in 0.1s;
-}
-  
-.container {
-    padding-left: 10%;
-    padding-top: 10%;
-}
-
-.container h1{
-    width: 300px;
-    font-family: 'Segoe UI Variable Display Semibold', sans-serif;
-    font-weight: 500;
-    font-size: 45px;
-    line-height: 48px;
-    color: #000000;
-}
-.container h3{
-    width: 300px;
-    font-family: 'Segoe UI Variable Display Semibold', sans-serif;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 6px;
-    color: #adadad;
-}
-.container p{
-    width: 80%;
-    max-width: 500px;
-    font-family: 'Segoe UI Variable Text', 'Helvetica', sans-serif;
-    font-style: normal;
+/* REGISTER YOUR CUSTOM FONT */
+@font-face {
+    font-family: 'Ndot55-Regular';
+    /* Ensure this filename matches your .otf file exactly */
+    src: url('my-font.otf') format('opentype');
     font-weight: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #605E5C;
-}
-
-hr {
-   max-width: 500px;
-    width: 80%;
-   float: left; 
-   color: #605E5C;
-   opacity: 50%;
-}
-
-.gh {
-    background-color:#ffffff;
-    align-items: center;
-    padding-block: 4px 6px;
-    padding-inline: 11px;
-    border-radius: 4px;
-    font-family: 'Segoe UI Variable Text', 'Helvetica', sans-serif;
     font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #ffffff;
+}
+
+:root {
+    --bg: #000000;
+    --text: #ffffff;
+    --border: #ffffff;
+    --dim-text: rgba(255, 255, 255, 0.6);
+}
+
+body {
+    font-family: 'Ndot55-Regular', monospace;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+    text-transform: lowercase;
+}
+
+.content {
+    max-width: 1100px;
+    padding: 60px 5%;
+}
+
+header h1 {
+    font-size: 4rem;
+    margin: 0 0 10px 0;
+    letter-spacing: -3px;
+    font-weight: 900;
+}
+
+.description {
+    font-size: 1.2rem;
+    color: var(--dim-text);
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 3rem;
+}
+
+.skill-tag {
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    font-size: 0.85rem;
+}
+
+.links {
+    margin-bottom: 5rem;
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
     text-decoration: none;
-    border: 0.5px solid #146CBE;
-    position: absolute;
-    left: 10.2%;
-    margin-top: 28px;
-    transition: ease-in 0.1s;
+    padding: 12px 24px;
+    font-weight: bold;
+    border: 1px solid var(--border);
+    background: var(--text);
+    color: var(--bg);
+    transition: all 0.15s ease-in-out;
 }
 
-.gh:hover {
-    background-color: #ffffff;
-  }
-
-.gh img{
-    position: relative;
-    top: 3px;
-    margin-right: 8px;
-    filter: invert(100%) sepia(100%) saturate(14%) hue-rotate(196deg) brightness(103%) contrast(103%);
+.btn:hover {
+    background: var(--bg);
+    color: var(--text);
 }
 
-.yt {
-    background-color:#FDFDFD;
-    align-items: center;
-    padding-block: 4px 6px;
-    padding-inline: 11px;
-    border-radius: 4px;
-    font-family: 'Segoe UI Variable Text', 'Helvetica', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #000000;
+.section-title {
+    font-size: 1.5rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+    padding-right: 0px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-link {
     text-decoration: none;
-    border: 0.5px solid #EBEBEB;
-    position: absolute;
-    left: 10.2%;
-    margin-top: 74px;
-    transition: ease-in 0.1s;
+    color: inherit;
 }
 
-.yt img {
-    margin-right: 8px;
+.project-card {
+    border: 1px solid var(--border);
+    transition: transform 0.2s;
+    background: var(--bg);
 }
 
-a:hover {
-    background-color: #f9f9f9;
-  }
-
-@media (prefers-color-scheme: dark) {
-    .container h1{
-    width: 300px;
-    font-family: 'Segoe UI Variable Display Semibold', 'Helvetica', sans-serif;
-    font-weight: 500;
-    font-size: 45px;
-    line-height: 48px;
-    color: #ffffff;
+.project-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid var(--border);
 }
 
-html {
-    background-color: #212121;
+.project-info {
+    padding: 20px;
+    transition: background 0.2s, color 0.2s;
 }
 
-
-.gh {
-        background-color:#f46565;
-    align-items: center;
-    padding-block: 4px 6px;
-    padding-inline: 11px;
-    border-radius: 4px;
-    font-family: 'Segoe UI Variable Text', 'Helvetica', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #000000;
-    text-decoration: none;
-    box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.15);
-    border: 0.5px solid #bf3939;
-    position: absolute;
-    left: 10.2%;
-    margin-top: 28px;
-    transition: ease-in 0.1s;
+.project-card:hover .project-info {
+    background: var(--text);
+    color: var(--bg);
 }
 
-.gh:hover {
-        background-color: #bf3939;
-  }
-
-.gh img{
-    position: relative;
-    top: 3px;
-    margin-right: 8px;
-    filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(297deg) brightness(96%) contrast(104%);
+.project-info h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.4rem;
 }
 
-.yt {
-    background-color:#2F2F2F;
-    align-items: center;
-    padding-block: 4px 6px;
-    padding-inline: 11px;
-    border-radius: 4px;
-    font-family: 'Segoe UI Variable Text', 'Helvetica', sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 24px;
-    color: #ffffff;
-    text-decoration: none;
-    box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.15);
-    border: 0.5px solid #363636;
-    position: absolute;
-    left: 10.2%;
-    margin-top: 74px;
-    transition: ease-in 0.1s;
+.project-info p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: inherit;
 }
 
-.yt img {
-    margin-right: 8px;
-    filter: invert(99%) sepia(2%) saturate(2095%) hue-rotate(161deg) brightness(118%) contrast(100%);
+.project-card:not(:hover) .project-info p {
+    color: var(--dim-text);
 }
 
-a:hover {
-    background-color: #3D3D3E;
-  }
-
-.container p{
-    color: #bebebe;
+footer {
+    margin-top: 8rem;
+    padding-bottom: 4rem;
+    color: var(--dim-text);
+    font-size: 0.8rem;
 }
-  }
-
