@@ -10,6 +10,10 @@
     --text: #ffffff;
     --border: #ffffff;
     --dim-text: rgba(255, 255, 255, 0.6);
+    --grid-color: rgba(255, 255, 255, 0.3);
+    --grid-gap: 80px;
+    /* Duration of the typewriter effect */
+    --type-duration: 1.5s;
 }
 
 body {
@@ -20,19 +24,71 @@ body {
     padding: 0;
     line-height: 1.4;
     text-transform: lowercase;
+
+    background-image: 
+        radial-gradient(circle at 2px 2px, var(--grid-color) 1px, transparent 0);
+    background-size: var(--grid-gap) var(--grid-gap);
+    background-attachment: fixed;
 }
+
+/* STAGGERED ENTRANCE */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Delay all staggered elements until AFTER typewriter (1.5s) */
+.description, .skills-container, .links, .section-title, .gallery {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.description { animation-delay: calc(var(--type-duration) + 0.1s); }
+.skills-container { animation-delay: calc(var(--type-duration) + 0.2s); }
+.links { animation-delay: calc(var(--type-duration) + 0.3s); }
+.section-title { animation-delay: calc(var(--type-duration) + 0.4s); }
+.gallery { animation-delay: calc(var(--type-duration) + 0.5s); }
 
 .content {
     max-width: 1500px;
     padding: 60px 5%; 
     margin: 0;
+    position: relative;
+    z-index: 1;
 }
 
 header h1 {
-    font-size: 4rem;
+    font-size: 5rem;
     margin: 0 0 10px 0;
     letter-spacing: -3px;
     font-weight: 900;
+    
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 4px solid var(--border);
+    width: fit-content; 
+    max-width: 0; 
+    
+    animation: 
+        typing var(--type-duration) steps(12, end) forwards,
+        blink 0.8s step-end 3;
+    animation-fill-mode: forwards;
+}
+
+@keyframes typing {
+    from { max-width: 0 }
+    to { max-width: 100% }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: var(--border) }
 }
 
 .description {
@@ -63,12 +119,12 @@ header h1 {
 
 .btn {
     text-decoration: none;
-    padding: 12px 24px;
+    padding: 10px 20px;
     font-weight: bold;
     border: 1px solid var(--border);
     background: var(--text);
     color: var(--bg);
-    transition: all 0.15s ease-in-out;
+    transition: all 0.1s ease-in-out;
 }
 
 .btn:hover {
@@ -77,41 +133,60 @@ header h1 {
 }
 
 .section-title {
-    font-size: 1.5rem;
-    display: inline-block;
-    margin-bottom: 2rem;
-    padding-right: 0px;
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 2.5rem;
+    font-weight: bold;
+    width: fit-content;
+    padding-right: 40px;
 }
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); 
+    gap: 25px;
     width: 100%;
+    margin-bottom: 5rem;
 }
 
 .project-link {
     text-decoration: none;
     color: inherit;
+    display: flex;
 }
 
 .project-card {
     border: 1px solid var(--border);
-    transition: transform 0.2s;
+    transition: transform 0.2s ease;
     background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.project-card:hover .skill-tag {
+    border-color: var(--bg);
+    color: var(--bg);
+    background: transparent;
+}
+
+.project-card:hover .skill-tag:hover {
+    background: var(--bg);
+    color: var(--text);
 }
 
 .project-card img {
     width: 100%;
-    height: 250px;
+    height: 300px;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border);
 }
 
 .project-info {
-    padding: 20px;
-    transition: background 0.2s, color 0.2s;
+    padding: 24px;
+    transition: background 0.15s, color 0.15s;
+    flex-grow: 1;
 }
 
 .project-card:hover .project-info {
@@ -121,12 +196,12 @@ header h1 {
 
 .project-info h3 {
     margin: 0 0 8px 0;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
 }
 
 .project-info p {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: inherit;
 }
 
