@@ -30,7 +30,6 @@ body {
     padding: 0;
     line-height: 1.4;
     text-transform: lowercase;
-    /* Static CSS background-image removed to let canvas handle the dots */
 }
 
 /* sticky grid canvas */
@@ -136,6 +135,7 @@ header h1 {
     margin-bottom: 1rem;
     font-size: 0.9rem;
     color: var(--dim-text);
+    text-transform: none;
 }
 
 #status-dot {
