@@ -1,3 +1,4 @@
+/* FONTS + VARS */
 @font-face {
     font-family: 'Ndot55-Regular';
     src: url('55.otf') format('opentype');
@@ -6,16 +7,21 @@
 }
 
 :root {
+    /* Colors */
     --bg: #000000;
     --text: #ffffff;
     --border: #ffffff;
     --dim-text: rgba(255, 255, 255, 0.6);
+    
+    /* Background Grid */
     --grid-color: rgba(255, 255, 255, 0.3);
     --grid-gap: 80px;
-    /* Duration of the typewriter effect */
+    
+    /* Animation Timings */
     --type-duration: 1.5s;
 }
 
+/* BASE STYLES + LAYOUT*/
 body {
     font-family: 'Ndot55-Regular', monospace;
     background-color: var(--bg);
@@ -25,35 +31,11 @@ body {
     line-height: 1.4;
     text-transform: lowercase;
 
-    background-image: 
-        radial-gradient(circle at 2px 2px, var(--grid-color) 1px, transparent 0);
+    /* dotted grid bg */
+    background-image: radial-gradient(circle at 2px 2px, var(--grid-color) 1px, transparent 0);
     background-size: var(--grid-gap) var(--grid-gap);
     background-attachment: fixed;
 }
-
-/* STAGGERED ENTRANCE */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Delay all staggered elements until AFTER typewriter (1.5s) */
-.description, .skills-container, .links, .section-title, .gallery {
-    opacity: 0;
-    animation: fadeInUp 0.5s ease forwards;
-}
-
-.description { animation-delay: calc(var(--type-duration) + 0.1s); }
-.skills-container { animation-delay: calc(var(--type-duration) + 0.2s); }
-.links { animation-delay: calc(var(--type-duration) + 0.3s); }
-.section-title { animation-delay: calc(var(--type-duration) + 0.4s); }
-.gallery { animation-delay: calc(var(--type-duration) + 0.5s); }
 
 .content {
     max-width: 1500px;
@@ -63,32 +45,30 @@ body {
     z-index: 1;
 }
 
+/* TYPOGRAPHY + HEADER */
 header h1 {
     font-size: 5rem;
     margin: 0 0 10px 0;
     letter-spacing: -3px;
     font-weight: 900;
+    text-transform: none; /* make sure we have uppercase chars or lowercase chars during hover effect */
     
+    /* try keep everything consistent */
+    display: inline-block;
+    width: fit-content; 
+    min-width: 1ch;
+    font-variant-numeric: tabular-nums; /* char widths identical */
+    cursor: pointer;
+    
+    /* typing effect initial state */
     overflow: hidden;
     white-space: nowrap;
     border-right: 4px solid var(--border);
-    width: fit-content; 
-    max-width: 0; 
+    max-width: 0;
     
     animation: 
         typing var(--type-duration) steps(12, end) forwards,
-        blink 0.8s step-end 3;
-    animation-fill-mode: forwards;
-}
-
-@keyframes typing {
-    from { max-width: 0 }
-    to { max-width: 100% }
-}
-
-@keyframes blink {
-    from, to { border-color: transparent }
-    50% { border-color: var(--border) }
+        blink 0.8s step-end 3 forwards; /* blink stops after typing finishes */
 }
 
 .description {
@@ -98,6 +78,16 @@ header h1 {
     margin-bottom: 2rem;
 }
 
+.section-title {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 2.5rem;
+    font-weight: bold;
+    width: fit-content;
+    padding-right: 40px;
+}
+
+/* COMPONENTS */
 .skills-container {
     display: flex;
     flex-wrap: wrap;
@@ -132,15 +122,7 @@ header h1 {
     color: var(--text);
 }
 
-.section-title {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: 2.5rem;
-    font-weight: bold;
-    width: fit-content;
-    padding-right: 40px;
-}
-
+/* GALLERY + CARDS */
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); 
@@ -157,22 +139,11 @@ header h1 {
 
 .project-card {
     border: 1px solid var(--border);
-    transition: transform 0.2s ease;
     background: var(--bg);
     display: flex;
     flex-direction: column;
     width: 100%;
-}
-
-.project-card:hover .skill-tag {
-    border-color: var(--bg);
-    color: var(--bg);
-    background: transparent;
-}
-
-.project-card:hover .skill-tag:hover {
-    background: var(--bg);
-    color: var(--text);
+    transition: transform 0.2s ease;
 }
 
 .project-card img {
@@ -185,13 +156,8 @@ header h1 {
 
 .project-info {
     padding: 24px;
-    transition: background 0.15s, color 0.15s;
     flex-grow: 1;
-}
-
-.project-card:hover .project-info {
-    background: var(--text);
-    color: var(--bg);
+    transition: background 0.15s, color 0.15s;
 }
 
 .project-info h3 {
@@ -205,6 +171,64 @@ header h1 {
     color: inherit;
 }
 
+/* card interactions */
 .project-card:not(:hover) .project-info p {
     color: var(--dim-text);
 }
+
+.project-card:hover .project-info {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.project-card:hover .skill-tag {
+    border-color: var(--bg);
+    color: var(--bg);
+    background: transparent;
+}
+
+.project-card:hover .skill-tag:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ANIMS */
+/* typewriter */
+@keyframes typing {
+    from { max-width: 0 }
+    to { max-width: 100% }
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: var(--border) }
+}
+
+/* staggered fade in */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* initial state for animated elements */
+.description, 
+.skills-container, 
+.links, 
+.section-title, 
+.gallery {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* stagger delays (starts AFTER the typing animation finishes) */
+.description      { animation-delay: calc(var(--type-duration) + 0.1s); }
+.skills-container { animation-delay: calc(var(--type-duration) + 0.2s); }
+.links            { animation-delay: calc(var(--type-duration) + 0.3s); }
+.section-title    { animation-delay: calc(var(--type-duration) + 0.4s); }
+.gallery          { animation-delay: calc(var(--type-duration) + 0.5s); }
