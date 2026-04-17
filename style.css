@@ -129,6 +129,33 @@ header h1 {
     color: var(--text);
 }
 
+.status-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    color: var(--dim-text);
+}
+
+#status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #747f8d;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+#status-dot:not([style*="background-color: rgb(116, 127, 141)"]) {
+    animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
 /* GALLERY + CARDS */
 .gallery {
     display: grid;

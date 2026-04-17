@@ -114,3 +114,38 @@ function animate() {
 
 resize();
 animate();
+
+const DISCORD_ID = "605705482400956417"; 
+
+async function updateStatus() {
+    try {
+        const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+        const { data } = await response.json();
+
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+
+        const statusColors = {
+            online: '#43b581',
+            idle: '#faa61a',
+            dnd: '#f04747',
+            offline: '#747f8d'
+        };
+        console.log(data.discord_status);
+        statusDot.style.backgroundColor = statusColors[data.discord_status] || statusColors.offline;
+
+        if (data.listening_to_spotify) {
+            statusText.innerText = `listening to: ${data.spotify.song} - ${data.spotify.artist}`;
+        } else if (data.activities.length > 0) {
+            const activity = data.activities.find(a => a.type === 0) || data.activities[0];
+            statusText.innerText = `playing: ${activity.name}`;
+        } else {
+            statusText.innerText = data.discord_status === 'offline' ? 'status: offline' : 'status: idle';
+        }
+    } catch (e) {
+        console.error("Lanyard error:", e);
+    }
+}
+
+updateStatus();
+setInterval(updateStatus, 1000);
