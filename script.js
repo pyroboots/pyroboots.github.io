@@ -35,13 +35,13 @@ async function fetchPinnedRepos() {
             container.innerHTML += `
                 <a href="${repo.url}" class="project-link" target="_blank">
                     <div class="project-card">
-                        <img src="${repo.openGraphImageUrl}" alt="${repo.name}">
+                        <img src="${repo.image}" alt="${repo.name}">
                         <div class="project-info">
                             <h3>[ ${repo.name} ]</h3>
-                            <p>${repo.description || 'No description.'}</p>
+                            <p>${repo.description || 'no description :('}</p>
                             <div style="margin-top: 10px;">
-                                <span class="skill-tag">${repo.primaryLanguage?.name || 'Code'}</span>
-                                <span class="skill-tag">★ ${repo.stargazerCount}</span>
+                                <span class="skill-tag">${repo.language || 'code'}</span>
+                                <span class="skill-tag">${repo.commits} commit${repo.commits != 1 ? 's' : ''}</span>
                             </div>
                         </div>
                     </div>

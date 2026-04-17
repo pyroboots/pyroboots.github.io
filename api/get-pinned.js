@@ -14,6 +14,15 @@ export default async function handler(req, res) {
                 color
               }
               openGraphImageUrl
+              defaultBranchRef {
+                target {
+                  ... on Commit {
+                    history {
+                      totalCount
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -31,5 +40,21 @@ export default async function handler(req, res) {
   });
 
   const data = await response.json();
-  res.status(200).json(data.data.user.pinnedItems.nodes);
+
+  if (data.errors) {
+    return res.status(500).json({ error: data.errors[0].message });
+  }
+
+  // flatten for simplicity
+  const repos = data.data.user.pinnedItems.nodes.map(repo => ({
+    name: repo.name,
+    description: repo.description,
+    url: repo.url,
+    stars: repo.stargazerCount,
+    language: repo.primaryLanguage?.name,
+    image: repo.openGraphImageUrl,
+    commits: repo.defaultBranchRef?.target?.history?.totalCount || 0
+  }));
+
+  res.status(200).json(repos);
 }
