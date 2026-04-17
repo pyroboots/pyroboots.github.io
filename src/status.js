@@ -9,7 +9,8 @@ const overrides = {
     "listening to broken boy - cage the elephant":                                  "BROKEN BOY! HOW DOES IT FEEL?!",
     "listening to machine love - jamie paige":                                      "can we wander for a spell and live in parallel?",
 
-    "playing vscodium": "@vscodium.state @vscodium.details"
+    "playing vscodium": "@vscodium.state @vscodium.details",
+    "playing the finals": "CAN YOU REACH THE FINALS?"
 }
 
 async function updateStatus() {
