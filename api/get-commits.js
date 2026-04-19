@@ -13,26 +13,25 @@ export default async function handler(req, res) {
 
         const events = await response.json();
 
-        const pushes = events
+        const activity = events
             .filter(event => event.type === 'PushEvent')
             .map(push => {
-                // GET THE ACTUAL FUCKING COMMIT BRO
-                const commits = push.payload.commits || [];
-                const latestMessage = commits.length > 0 
-                    ? commits[0].message 
-                    : `pushed to ${push.payload.ref.split('/').pop()}`;
+                // maybe now?
+                const commitMessage = (push.payload.commits && push.payload.commits.length > 0)
+                    ? push.payload.commits[0].message
+                    : `pushed to ${push.payload.ref.split('/').pop()}`; // "pushed to main"
 
                 return {
-                    repo: push.repo.name.split('/').pop(), // just the repo name, no username
+                    repo: push.repo.name.replace('pyroboots/', ''),
                     timestamp: push.created_at,
-                    message: latestMessage,
+                    message: commitMessage,
                     url: `https://github.com/${push.repo.name}`
                 };
             })
             .slice(0, 5);
 
         res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-        res.status(200).json(pushes);
+        res.status(200).json(activity);
         
     } catch (error) {
         res.status(500).json({ error: "processing error", details: error.message });
