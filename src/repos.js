@@ -1,3 +1,8 @@
+title.addEventListener("mouseleave", () => {
+    clearInterval(loopInterval);
+    title.innerText = originalText;
+});
+
 async function fetchPinnedRepos() {
     const container = document.getElementById('pinned-repos-container');
     try {

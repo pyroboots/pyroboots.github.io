@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     const pushes = events
       .filter(event => event.type === 'PushEvent')
       .map(push => ({
-        repo: push.repo.name,
+        repo: push.repo.name.replace('pyroboots/', ''), // clean up the name
         timestamp: push.created_at,
         message: push.payload.commits[0]?.message || 'no message :(', // latest commit message
         url: `https://github.com/${push.repo.name}`

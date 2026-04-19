@@ -19,8 +19,3 @@ title.addEventListener("mouseenter", () => {
         if (index >= originalText.length) index = 0;
     }, speed);
 });
-
-title.addEventListener("mouseleave", () => {
-    clearInterval(loopInterval);
-    title.innerText = originalText;
-});

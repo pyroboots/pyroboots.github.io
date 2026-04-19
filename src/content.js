@@ -100,7 +100,6 @@ const art = [
 
 const blog = document.getElementById("nanoblog");
 const gallery = document.getElementById("art-gallery");
-const recentCommits = document.getElementById("recent-commits-container");
 
 async function addArt() {
     art.forEach((a) => {
@@ -179,33 +178,5 @@ async function addLogs() {
     });
 }
 
-async function addRecentCommits() {
-    try {
-        const response = await fetch('/api/get-commits');
-        const commits = await response.json();
-        
-        recentCommits.innerText = '';
-
-        commits.forEach((commit) => {
-            recentCommits.innerHTML += `
-                <div class="project-card blog-post">
-                    <div class="project-info">
-                        <div class="blog-meta">
-                            <span class="skill-tag">${commit.timestamp}</span>
-                            <span class="skill-tag">${commit.repo}</span>
-                            <h3 class="blog-title">[ ${commit.message.split("\n")[0]} ]</h3>
-                        </div>
-                        <div class="blog-body">
-                            <p>${commit.message}</p>
-                        </div>
-                    </div>
-                </div>`;
-        })
-    } catch (e) {
-        recentCommits.innerHTML = '<p>backend offline or token expired :(</p>';
-    }
-}
-
 addArt();
 addLogs();
-addRecentCommits();
