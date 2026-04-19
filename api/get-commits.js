@@ -7,49 +7,52 @@ export default async function handler(req, res) {
             }
         });
 
-        if (!response.ok) return res.status(response.status).json([]);
+        if (!response.ok) {
+            return res.status(response.status).json({ error: 'GitHub API offline' });
+        }
 
         const events = await response.json();
         let activityLog = [];
 
         events.forEach(event => {
             const repoName = event.repo.name.split('/').pop();
-            const dateObj = new Date(event.created_at);
-            const formattedDate = `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${dateObj.getFullYear().toString().slice(-2)}`;
+            const time = event.created_at;
 
+            // if it's a push grab EVERY commit in that push
             if (event.type === 'PushEvent' && event.payload.commits) {
-                // EVERY commit in the push
-                event.payload.commits.forEach(c => {
+                event.payload.commits.forEach(commit => {
                     activityLog.push({
                         repo: repoName,
-                        date: formattedDate,
-                        rawDate: event.created_at,
-                        message: c.message.split('\n')[0],
-                        url: `https://github.com/${event.repo.name}/commit/${c.sha}`
+                        timestamp: time,
+                        message: commit.message,
+                        url: `https://github.com/${event.repo.name}/commit/${commit.sha}`,
+                        type: 'commit'
                     });
                 });
-            } else if (event.type === 'CreateEvent') {
-                // branch/repo creation as a backup
+            } 
+            // fallback: if no commits found at least show the event (created repo etc.)
+            else if (event.type === 'CreateEvent' || event.type === 'WatchEvent') {
                 activityLog.push({
                     repo: repoName,
-                    date: formattedDate,
-                    rawDate: event.created_at,
-                    message: `sys_event: created ${event.payload.ref_type || 'repository'}`,
-                    url: `https://github.com/${event.repo.name}`
+                    timestamp: time,
+                    message: event.type === 'CreateEvent' ? `created ${event.payload.ref_type}` : 'starred repository',
+                    url: `https://github.com/${event.repo.name}`,
+                    type: 'activity'
                 });
             }
         });
 
-        // sort and cap at 20
+        // sort and limit to 20
         const result = activityLog
-            .sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate))
+            .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
             .slice(0, 20);
 
-        res.setHeader('Cache-Control', 'no-store, max-age=0'); // Disable cache for this final test
+        res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate'); // low cache for all these fucking oushes ong
         res.status(200).json(result);
         
-    } catch (e) {
-        console.error("Critical Failure:", e);
-        res.status(500).json([]);
+    } catch (error) {
+        // i learned my lesson: log to vercel.
+        console.error("Pipeline Error:", error);
+        res.status(500).json({ error: "server error", details: error.message });
     }
 }
