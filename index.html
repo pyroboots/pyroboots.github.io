@@ -17,51 +17,13 @@
                 <span id="status-dot"></span>
                 <span id="status-text">loading status...</span>
             </div>
-            <p class="description">
-                amateur 3d artist | half-assed software engineer | avid science nerd
-            </p>
         </header>
-
-        <div class="skills-container">
-            <span class="skill-tag">c#</span>
-            <span class="skill-tag">lua</span>
-            <span class="skill-tag">js</span>
-            <span class="skill-tag">unreal engine</span>
-        </div>
-
-        <div class="links">
-            <a href="https://github.com/pyroboots" class="btn">[ github ]</a>
-            <a href="https://youtube.com/@pyroboots" class="btn">[ youtube ]</a>
-        </div>
-
-        <nav class="dashboard-tabs">
-            <button class="tab-btn active" data-target="repos">repos</button>
-            <button class="tab-btn" data-target="gallery">gallery</button>
-            <button class="tab-btn" data-target="blog">nanolog</button>
-        </nav>
-
-        <div class="tab-container">
-            <section id="repos" class="tab-content active">
-                <div id="pinned-repos-container" class="gallery">
-                    <p>loading projects...</p>
-                </div>
-            </section>
-
-            <section id="gallery" class="tab-content">
-                <div class="gallery" id="art-gallery"></div>
-            </section>
-
-            <section id="blog" class="tab-content">
-                <div class="gallery" id="nanoblog"></div>
-            </section>
-        </div>
     </div>
 
     <script src="src/status.js" defer></script>
-    <script src="src/content.js" defer></script>
     <script src="src/headerAnim.js" defer></script>
     <script src="src/stickyGrid.js" defer></script>
-    <script src="src/repos.js" defer></script>
     <script src="src/tabs.js" defer></script> 
+    <script type="module" src="src/site.js" defer></script> 
 </body>
 </html>

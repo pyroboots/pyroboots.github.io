@@ -7,21 +7,16 @@
 }
 
 :root {
-    /* cols */
     --bg: #000000;
     --text: #ffffff;
     --border: #ffffff;
     --dim-text: rgba(255, 255, 255, 0.6);
-    
-    /* bg grid */
     --grid-color: rgba(255, 255, 255, 0.3);
     --grid-gap: 80px;
-    
-    /* anim timings */
     --type-duration: 1.5s;
 }
 
-/* BASE STYLES + LAYOUT*/
+/* BASE */
 body {
     font-family: 'Ndot55-Regular', monospace;
     background-color: var(--bg);
@@ -44,12 +39,12 @@ body {
 
 .content {
     max-width: 1500px;
-    padding: 60px 5%; 
+    padding: 60px 5%;
     position: relative;
     z-index: 1;
 }
 
-/* TYPOGRAPHY + HEADER */
+/* HEADER */
 header h1 {
     font-size: 5rem;
     margin: 0 0 5px 0;
@@ -59,10 +54,9 @@ header h1 {
     white-space: nowrap;
     border-right: 4px solid var(--border);
     max-width: 0;
-    
-    animation: 
+    animation:
         typing var(--type-duration) steps(12, end) forwards,
-        blink 0.8s step-end 3 forwards; /* blink stops after typing finishes */
+        blink 0.8s step-end 3 forwards;
 }
 
 .description {
@@ -72,50 +66,24 @@ header h1 {
     margin-bottom: 2rem;
 }
 
-/* DASHBOARD TABS */
-.dashboard-tabs {
+/* STATUS */
+.status-container {
     display: flex;
-    gap: 30px;
-    margin-bottom: 3rem;
-    border-bottom: 1px solid var(--grid-color);
-    padding-bottom: 15px;
-    opacity: 0;
-    animation: fadeInUp 0.5s ease forwards;
-    animation-delay: calc(var(--type-duration) + 0.4s);
-}
-
-.tab-btn {
-    background: transparent;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
     color: var(--dim-text);
-    border: none;
-    font-family: inherit;
-    font-size: 1.8rem;
-    font-weight: bold;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.2s;
+    text-transform: none;
 }
 
-.tab-btn:hover, .tab-btn.active {
-    color: var(--text);
-}
-
-.tab-btn.active::before {
-    content: "[ ";
-}
-
-.tab-btn.active::after {
-    content: " ]";
-}
-
-/* TAB CONTENT CONTROL */
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-    animation: fadeInUp 0.5s ease forwards;
+#status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #747f8d;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    animation: status-pulse 2s infinite;
 }
 
 /* COMPONENTS */
@@ -153,104 +121,48 @@ header h1 {
     color: var(--text);
 }
 
-.status-container {
+/* TABS */
+.dashboard-tabs {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: var(--dim-text);
-    text-transform: none;
-}
-
-#status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #747f8d;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-}
-
-#status-dot:not([style*="background-color: rgb(116, 127, 141)"]) {
-    animation: status-pulse 2s infinite;
-}
-
-@keyframes status-pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.5; }
-    100% { opacity: 1; }
-}
-
-/* BLOG SPECIFIC STYLES */
-.blog-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    max-width: 800px; /* Keeps text readable */
-}
-
-.blog-post {
-    cursor: default; /* Not a link anymore, just a card */
-}
-
-.blog-meta {
-    margin-bottom: 20px;
+    gap: 30px;
+    margin-bottom: 3rem;
     border-bottom: 1px solid var(--grid-color);
     padding-bottom: 15px;
 }
 
-.blog-title {
-    font-size: 2rem !important;
-    margin-top: 10px !important;
-}
-
-.blog-body p {
-    margin-bottom: 1.2rem;
-    line-height: 1.6;
-}
-
-.blog-heading {
-    color: var(--text);
-    font-size: 1.4rem;
-    margin: 2rem 0 1rem 0;
-    text-decoration: underline;
-}
-
-.blog-note {
-    border-left: 3px solid var(--text);
-    padding-left: 15px;
-    color: var(--dim-text);
-    font-style: italic;
-}
-
-/* Ensure blog posts don't turn white on hover like the repo links */
-.blog-post:hover .project-info {
+.tab-btn {
     background: transparent;
+    color: var(--dim-text);
+    border: none;
+    font-family: inherit;
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.tab-btn:hover,
+.tab-btn.active {
     color: var(--text);
 }
 
-/* 1. Prevent the background from turning white and text from turning black */
-.blog-post:hover .project-info {
-    background: var(--bg) !important;
-    color: var(--text) !important;
+.tab-btn.active::before { content: "[ "; }
+.tab-btn.active::after  { content: " ]"; }
+
+.tab-content {
+    display: none;
 }
 
-/* 2. Prevent the skill-tag (date) from inverting colors */
-.blog-post:hover .skill-tag {
-    border-color: var(--border) !important;
-    color: var(--dim-text) !important;
-    background: transparent !important;
-}
-
-/* 3. Ensure the description/text stays dimmed or normal as intended */
-.blog-post:hover .project-info p {
-    color: var(--dim-text); /* or var(--text) if you want it brighter */
+.tab-content.active {
+    display: block;
+    animation: fadeInUp 0.5s ease forwards;
 }
 
 /* GALLERY + CARDS */
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
     gap: 25px;
     width: 100%;
     margin-bottom: 5rem;
@@ -293,16 +205,15 @@ header h1 {
 .project-info p {
     margin: 0;
     font-size: 1rem;
-    color: inherit;
-}
-
-/* card interactions */
-.project-card:not(:hover) .project-info p {
     color: var(--dim-text);
 }
 
 .project-card:hover .project-info {
     background: var(--text);
+    color: var(--bg);
+}
+
+.project-card:hover .project-info p {
     color: var(--bg);
 }
 
@@ -317,40 +228,78 @@ header h1 {
     color: var(--text);
 }
 
-/* ANIMS */
-/* typewriter */
+/* BLOG */
+.blog-post {
+    cursor: default;
+}
+
+.blog-meta {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--grid-color);
+    padding-bottom: 15px;
+}
+
+.blog-title {
+    font-size: 2rem !important;
+    margin-top: 10px !important;
+}
+
+.blog-body p {
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.blog-heading {
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem 0;
+    text-decoration: underline;
+}
+
+.blog-note {
+    border-left: 3px solid var(--text);
+    padding-left: 15px;
+    color: var(--dim-text);
+    font-style: italic;
+}
+
+.blog-post:hover .project-info,
+.blog-post:hover .project-info p {
+    background: transparent;
+    color: var(--text);
+}
+
+.blog-post:hover .skill-tag {
+    border-color: var(--border);
+    color: var(--dim-text);
+    background: transparent;
+}
+
+/* ANIMATIONS */
 @keyframes typing {
-    from { max-width: 0 }
-    to { max-width: 100% }
+    from { max-width: 0; }
+    to   { max-width: 100%; }
 }
 
 @keyframes blink {
-    from, to { border-color: transparent }
-    50% { border-color: var(--border) }
+    from, to { border-color: transparent; }
+    50%      { border-color: var(--border); }
 }
 
-/* staggered fade in */
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* initial state for animated elements */
-.description, 
-.skills-container, 
-.links, 
-.section-title, 
+@keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+}
+
+.description,
+.skills-container,
+.links,
+.dashboard-tabs,
 .gallery {
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
 }
-
-.description { animation-delay: calc(var(--type-duration) + 0.1s); }
-.skills-container { animation-delay: calc(var(--type-duration) + 0.2s); }
-.links { animation-delay: calc(var(--type-duration) + 0.3s); }

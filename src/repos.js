@@ -28,5 +28,6 @@ async function fetchPinnedRepos() {
     } catch (e) {
         container.innerHTML = '<p>backend offline or token expired :(</p>';
     }
-}   
-fetchPinnedRepos();
+}
+
+export { fetchPinnedRepos };
