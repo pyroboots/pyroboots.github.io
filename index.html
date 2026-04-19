@@ -12,7 +12,7 @@
 
     <div class="content">
         <header>
-            <h1>[&nbsp;&nbsp;&nbsp;pyroboots&nbsp;&nbsp;&nbsp;]</h1>
+            <h1>[&nbsp;&nbsp;&nbsp;pyroboots&nbsp;&nbsp;&nbsp;]&nbsp;&nbsp;&nbsp;</h1>
             <div class="status-container">
                 <span id="status-dot"></span>
                 <span id="status-text">loading status...</span>
@@ -34,34 +34,18 @@
             <a href="https://youtube.com/@pyroboots" class="btn">[ youtube ]</a>
         </div>
 
-        <nav class="dashboard-tabs">
-            <button class="tab-btn active" data-target="repos">repos</button>
-            <button class="tab-btn" data-target="gallery">gallery</button>
-            <button class="tab-btn" data-target="blog">nanolog</button>
-        </nav>
-
-        <div class="tab-container">
-            <section id="repos" class="tab-content active">
-                <div id="pinned-repos-container" class="gallery">
-                    <p>loading projects...</p>
-                </div>
-            </section>
-
-            <section id="gallery" class="tab-content">
-                <div class="gallery" id="art-gallery"></div>
-            </section>
-
-            <section id="blog" class="tab-content">
-                <div class="gallery" id="nanoblog"></div>
-            </section>
+        <h1 class="section-title">repos</h1>
+        <div id="pinned-repos-container" class="gallery">
+            <p>loading projects...</p>
         </div>
-    </div>
 
+        <h1 class="section-title">gallery</h1>
+        <div class="gallery" id="art-gallery"></div>
+    </div>
     <script src="src/status.js" defer></script>
     <script src="src/content.js" defer></script>
     <script src="src/headerAnim.js" defer></script>
     <script src="src/stickyGrid.js" defer></script>
     <script src="src/repos.js" defer></script>
-    <script src="src/tabs.js" defer></script> 
 </body>
 </html>
