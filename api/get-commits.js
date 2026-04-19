@@ -8,32 +8,38 @@ export default async function handler(req, res) {
         });
 
         if (!response.ok) {
-            return res.status(response.status).json({ error: 'failed to fetch' });
+            return res.status(response.status).json({ error: 'failed to fetch from github' });
         }
 
         const events = await response.json();
 
-        const activity = events
-            .filter(event => event.type === 'PushEvent')
+        const pushes = events
+            .filter(event => 
+                event.type === 'PushEvent' && 
+                event.payload.commits && 
+                event.payload.commits.length > 0
+            )
             .map(push => {
-                // maybe now?
-                const commitMessage = (push.payload.commits && push.payload.commits.length > 0)
-                    ? push.payload.commits[0].message
-                    : `pushed to ${push.payload.ref.split('/').pop()}`; // "pushed to main"
-
+                const latestCommit = push.payload.commits[0];
+                
                 return {
                     repo: push.repo.name.replace('pyroboots/', ''),
                     timestamp: push.created_at,
-                    message: commitMessage,
+                    message: latestCommit ? latestCommit.message : 'pushed changes',
                     url: `https://github.com/${push.repo.name}`
                 };
             })
             .slice(0, 5);
 
-        res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-        res.status(200).json(activity);
+        // Cache for 1 hour, but allow background refresh
+        res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+        res.status(200).json(pushes);
         
     } catch (error) {
-        res.status(500).json({ error: "processing error", details: error.message });
+        console.error("Mapping error:", error);
+        res.status(500).json({ 
+            error: "Internal processing error", 
+            details: error.message 
+        });
     }
 }
