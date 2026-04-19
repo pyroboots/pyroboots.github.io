@@ -32,7 +32,6 @@ body {
     text-transform: lowercase;
 }
 
-/* sticky grid canvas */
 #grid-canvas {
     position: fixed;
     top: 0;
@@ -46,7 +45,6 @@ body {
 .content {
     max-width: 1500px;
     padding: 60px 5%; 
-    margin: 0;
     position: relative;
     z-index: 1;
 }
@@ -57,17 +55,7 @@ header h1 {
     margin: 0 0 5px 0;
     letter-spacing: -3px;
     font-weight: 900;
-    text-transform: none; /* make sure we have uppercase chars or lowercase chars during hover effect */
-    
-    /* try keep everything consistent */
     display: inline-block;
-    width: fit-content; 
-    min-width: 1ch;
-    font-variant-numeric: tabular-nums; /* char widths identical */
-    cursor: pointer;
-    
-    /* typing effect initial state */
-    overflow: hidden;
     white-space: nowrap;
     border-right: 4px solid var(--border);
     max-width: 0;
@@ -84,13 +72,50 @@ header h1 {
     margin-bottom: 2rem;
 }
 
-.section-title {
-    font-size: 2rem;
-    display: block;
-    margin-bottom: 2.5rem;
+/* DASHBOARD TABS */
+.dashboard-tabs {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--grid-color);
+    padding-bottom: 15px;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: calc(var(--type-duration) + 0.4s);
+}
+
+.tab-btn {
+    background: transparent;
+    color: var(--dim-text);
+    border: none;
+    font-family: inherit;
+    font-size: 1.8rem;
     font-weight: bold;
-    width: fit-content;
-    padding-right: 40px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.tab-btn:hover, .tab-btn.active {
+    color: var(--text);
+}
+
+.tab-btn.active::before {
+    content: "[ ";
+}
+
+.tab-btn.active::after {
+    content: " ]";
+}
+
+/* TAB CONTENT CONTROL */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeInUp 0.5s ease forwards;
 }
 
 /* COMPONENTS */
@@ -154,6 +179,72 @@ header h1 {
     0% { opacity: 1; }
     50% { opacity: 0.5; }
     100% { opacity: 1; }
+}
+
+/* BLOG SPECIFIC STYLES */
+.blog-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 800px; /* Keeps text readable */
+}
+
+.blog-post {
+    cursor: default; /* Not a link anymore, just a card */
+}
+
+.blog-meta {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--grid-color);
+    padding-bottom: 15px;
+}
+
+.blog-title {
+    font-size: 2rem !important;
+    margin-top: 10px !important;
+}
+
+.blog-body p {
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.blog-heading {
+    color: var(--text);
+    font-size: 1.4rem;
+    margin: 2rem 0 1rem 0;
+    text-decoration: underline;
+}
+
+.blog-note {
+    border-left: 3px solid var(--text);
+    padding-left: 15px;
+    color: var(--dim-text);
+    font-style: italic;
+}
+
+/* Ensure blog posts don't turn white on hover like the repo links */
+.blog-post:hover .project-info {
+    background: transparent;
+    color: var(--text);
+}
+
+/* 1. Prevent the background from turning white and text from turning black */
+.blog-post:hover .project-info {
+    background: var(--bg) !important;
+    color: var(--text) !important;
+}
+
+/* 2. Prevent the skill-tag (date) from inverting colors */
+.blog-post:hover .skill-tag {
+    border-color: var(--border) !important;
+    color: var(--dim-text) !important;
+    background: transparent !important;
+}
+
+/* 3. Ensure the description/text stays dimmed or normal as intended */
+.blog-post:hover .project-info p {
+    color: var(--dim-text); /* or var(--text) if you want it brighter */
 }
 
 /* GALLERY + CARDS */
@@ -260,9 +351,6 @@ header h1 {
     animation: fadeInUp 0.5s ease forwards;
 }
 
-/* stagger delays (starts AFTER the typing animation finishes) */
-.description      { animation-delay: calc(var(--type-duration) + 0.1s); }
+.description { animation-delay: calc(var(--type-duration) + 0.1s); }
 .skills-container { animation-delay: calc(var(--type-duration) + 0.2s); }
-.links            { animation-delay: calc(var(--type-duration) + 0.3s); }
-.section-title    { animation-delay: calc(var(--type-duration) + 0.4s); }
-.gallery          { animation-delay: calc(var(--type-duration) + 0.5s); }
+.links { animation-delay: calc(var(--type-duration) + 0.3s); }
