@@ -147,8 +147,8 @@ header h1 {
     color: var(--text);
 }
 
-.tab-btn.active::before { content: "[ "; }
-.tab-btn.active::after  { content: " ]"; }
+.tab-btn.active::before { content: "[ ~/"; }
+.tab-btn.active::after  { content: "/ ]"; }
 
 .tab-content {
     display: none;
@@ -303,3 +303,31 @@ header h1 {
     opacity: 0;
     animation: fadeInUp 0.5s ease forwards;
 }
+
+/* SPECS */
+.neofetch-layout {
+    display: flex;
+    gap: 2rem;
+    color: #d1d1d1;
+    padding: 20px;
+    width: 2000px;
+    text-transform: none;
+}
+
+.fetch-art img {
+    width: 250px;
+    height: 250px;
+    border: 1px solid #444;
+}
+
+.fetch-header { color: #bb9af7; font-weight: bold; }
+.fetch-key { color: #ff9e64; font-weight: bold; margin-right: 10px; }
+.fetch-val { color: #a9b1d6; }
+
+.color-grid { margin-top: 15px; display: flex; gap: 4px; }
+.color-grid span { 
+    width: 20px; height: 20px; display: inline-block; 
+}
+
+.c1 { background: #7aa2f7; } .c2 { background: #ff9e64; } 
+.c3 { background: #bb9af7; } .c4 { background: #ffffff; }

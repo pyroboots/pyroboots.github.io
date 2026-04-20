@@ -22,6 +22,11 @@ const logs = [
         date: "19/04/26 :: 2",
         title: "tactile ue materials",
         desc: `made a pretty interesting frosted/acrylic glass path tracing (essentially pbr) in unreal engine today. ill probably put a picture on the gallery because it looks very cool`
+    },
+    {
+        date: "20/04/26",
+        title: "site update 03",
+        desc: `added a specs page with my system specs and my declining sleep quality that mimics neofetch`
     }
 ];
 
