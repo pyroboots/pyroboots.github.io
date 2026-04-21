@@ -315,9 +315,8 @@ header h1 {
 }
 
 .fetch-art img {
-    width: 250px;
-    height: 250px;
-    border: 1px solid #444;
+    width: 400px;
+    height: 400px;
 }
 
 .fetch-header { color: #bb9af7; font-weight: bold; }

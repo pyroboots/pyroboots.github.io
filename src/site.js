@@ -27,7 +27,40 @@ Container("links");
     Button("youtube", "https://youtube.com/@pyroboots");
 End();
 
-Tabs(["repos", { label: "ue_gallery", id: "gallery" }, { label: "nanolog", id: "blog" }, "specs"]);
+Tabs([
+    {label: "about_me", id: "specs"}, 
+    "repos", 
+    {label: "ue_gallery", id: "gallery" }, 
+    {label: "nanolog", id: "blog"}
+]);
+
+Tab("specs");
+    Container("specs-cont");
+        Label("[pyro@boots ~]$ pyrofetch | pyroboots.vercel.app/specs/");
+        addSpecs({
+            "os": "EndeavourOS Linux",
+            "kernel": "6.19.6-arch1-1",
+            "shell": "bash 5.3.9",
+            "de": "Hyprland",
+            "wm": "ambxst",
+            "terminal": "kitty",
+            "cpu": "Intel i7-4790K (8) @ 4.400GHz",
+            "gpu": "NVIDIA GeForce RTX 2080 Rev. A",
+            "memory": "16gb ddr4",
+            
+            "stack": "",
+            "code editor": "jetbrains rider / vscode",
+            "engine": "unreal engine",
+            "video editor": "lead (custom, pb for pyroboots - see what i did there?)",
+
+            "human": "",
+            "host": "carbon-based-lifeform",
+            "location": "land of tea (britain)",
+            "ideology": "FOSS + customisation",
+            "uptime": Math.floor((new Date() - new Date("2012-01-26")) / (1000 * 60 * 60 * 24)) + " days"
+        });
+    End();
+End();
 
 Tab("repos", "pinned-repos-container");
     Label("loading projects...");
@@ -40,24 +73,4 @@ End();
 
 Tab("blog");
     addLogs();
-End();
-
-Tab("specs");
-    Container("specs-cont");
-        Label("[pyro@boots ~]$ pyrofetch | pyroboots.vercel.app/specs/");
-        addSpecs({
-            os: "EndeavourOS Linux",
-            kernel: "6.19.6-arch1-1",
-            shell: "bash 5.3.9",
-            de: "Hyprland",
-            wm: "ambxst",
-            terminal: "kitten",
-            cpu: "Intel i7-4790K (8) @ 4.400GHz",
-            gpu: "NVIDIA GeForce RTX 2080 Rev. A",
-            memory: "16gb ddr4",
-            "": "",
-            entropy: "increasing",
-            sleep: "decreasing"
-        });
-    End();
 End();

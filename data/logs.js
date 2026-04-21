@@ -27,6 +27,12 @@ const logs = [
         date: "20/04/26",
         title: "site update 03",
         desc: `added a specs page with my system specs and my declining sleep quality that mimics neofetch`
+    },
+    {
+        date: "21/04/26",
+        title: "site update 04",
+        desc: ` - updated spec page to include stack and about me
+         - make about me the default page`    
     }
 ];
 

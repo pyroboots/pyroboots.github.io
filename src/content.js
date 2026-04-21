@@ -19,7 +19,7 @@ async function addArt() {
                 <div class="project-card">
                     <img src="${a.img}" alt="${a.name}">
                     <div class="project-info">
-                        <h3>[ ${a.name} ]</h3>
+                        <h3>[ ${a.name.replaceAll(" ", "_")} ]</h3>
                         ${tagsHTML}
                         <p>&nbsp;</p>
                         ${metaHTML}
@@ -39,16 +39,12 @@ async function addLogs() {
             if (!trimmed) return; // Skip empty lines
 
             if (trimmed.startsWith("# ")) {
-                // Heading 1 level
                 htmlContent += `<h3 class="blog-heading">${trimmed.replace("# ", "")}</h3>\n`;
             } else if (trimmed.startsWith("## ")) {
-                // Smaller sub-heading
                 htmlContent += `<h4 class="blog-subheading">${trimmed.replace("## ", "")}</h4>\n`;
             } else if (trimmed.startsWith("> ")) {
-                // Blockquote/Terminal Note
                 htmlContent += `<p class="blog-note">${trimmed.replace("> ", "")}</p>\n`;
             } else {
-                // Regular paragraph
                 htmlContent += `<p>${trimmed}</p>\n`;
             }
         });
@@ -58,7 +54,7 @@ async function addLogs() {
                 <div class="project-info">
                     <div class="blog-meta">
                         <span class="skill-tag">${log.date}</span>
-                        <h3 class="blog-title">[ ${log.title} ]</h3>
+                        <h3 class="blog-title">[ ${log.title.replaceAll(" ", "_")} ]</h3>
                     </div>
                     <div class="blog-body">
                         ${htmlContent}
