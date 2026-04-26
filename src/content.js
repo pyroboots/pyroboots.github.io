@@ -3,10 +3,10 @@ import { logs } from "/data/logs.js";
 
 async function addArt() {
     const gallery = document.getElementById("gallery-container");
-    art.forEach((a) => {
+    art.toReversed().forEach((a) => {
         let tagsHTML = "";
         a.tags.forEach((t) => {
-            tagsHTML += `<span class="skill-tag">${t}</span>\n`
+            tagsHTML += `<span class="skill-tag">#${t.replaceAll(" ", "-")}</span>\n`
         })
 
         let metaHTML = "";

@@ -33,6 +33,12 @@ const logs = [
         title: "site update 04",
         desc: ` - updated spec page to include stack and about me
          - make about me the default page`    
+    },
+    {
+        date: "26/04/26",
+        title: "site update 05",
+        desc: ` - changed tag format
+         - artwork order reversed to show newest first`    
     }
 ];
 
