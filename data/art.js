@@ -84,7 +84,8 @@ const art = [
             "cat 5 act 1 finale: catasaki",
             "first time using advanced particles (mesh renderer)",
             "6000+ concurrent cats"
-        ]
+        ],
+        "link": "https://www.youtube.com/watch?v=Yc8rYxCu89w"
     },
     {
         "img": "img/cat5_2.jpeg",
@@ -93,7 +94,8 @@ const art = [
         "meta": [
             "cat 5 act 1 finale: catasaki",
             "first time using procedural content generation (pcg) for the city",
-        ]
+        ],
+        "link": "https://www.youtube.com/watch?v=Yc8rYxCu89w"
     },
     {
         "img": "img/cat5_3.jpeg",
@@ -103,7 +105,8 @@ const art = [
             "cat 5 act 1 finale: catasaki",
             "very advanced material",
             "had fun :)"
-        ]
+        ],
+        "link": "https://www.youtube.com/watch?v=Yc8rYxCu89w"
     },
     {
         "img": "img/wrenderer.png",
@@ -125,7 +128,7 @@ const art = [
             "pt only material",
             "customizable ior",
         ],
-        "link": "https://www.youtube.com/shorts/6guzeAk8dHo?feature=share"
+        "link": "https://www.youtube.com/shorts/6guzeAk8dHo"
     }
 ]
 

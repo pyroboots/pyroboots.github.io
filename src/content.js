@@ -23,6 +23,8 @@ async function addArt() {
                         ${tagsHTML}
                         <p>&nbsp;</p>
                         ${metaHTML}
+                        ${a.link == undefined ? "" : "<p>&nbsp;</p>"}
+                        ${a.link == undefined ? "" : `<span class="skill-tag">${a.link.substring(8, a.link.length)}</span>`}
                     </div>
                 </div>
             </a>`;
