@@ -15,7 +15,7 @@ async function addArt() {
         })
 
         gallery.innerHTML += `
-            <a href="${a.img}" class="project-link">
+            <a href="${a.link == undefined ? a.img : a.link}" class="project-link">
                 <div class="project-card">
                     <img src="${a.img}" alt="${a.name}">
                     <div class="project-info">

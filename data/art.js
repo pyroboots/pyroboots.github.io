@@ -116,6 +116,16 @@ const art = [
             "realtime",
             "might make into an engine?"
         ]
+    },
+    {
+        "img": "img/acrylic.jpeg",
+        "name": "acrylic 01",
+        "tags": [tags.collection_ue, tags.rm_traced],
+        "meta": [
+            "pt only material",
+            "customizable ior",
+        ],
+        "link": "https://www.youtube.com/shorts/6guzeAk8dHo?feature=share"
     }
 ]
 
