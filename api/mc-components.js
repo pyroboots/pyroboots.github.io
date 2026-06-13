@@ -16,7 +16,6 @@ export default async function handler(req, res) {
         let url;
 
         if (component && component.trim() !== '') {
-            // Single component details
             const comp = component.trim().toLowerCase();
             if (t === 'item') {
                 url = `https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_${comp}`;
@@ -26,7 +25,6 @@ export default async function handler(req, res) {
                 url = `https://learn.microsoft.com/en-us/minecraft/creator/reference/content/entityreference/examples/entitycomponents/minecraft${comp}`;
             }
         } else {
-            // List of all components
             if (t === 'item') {
                 url = 'https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponentlist';
             } else if (t === 'block') {
@@ -60,7 +58,7 @@ export default async function handler(req, res) {
     }
 }
 
-// ==================== MARKDOWN PARSER ====================
+// ==================== IMPROVED MARKDOWN PARSER ====================
 function parseMinecraftPage(html, isListPage) {
     if (isListPage) {
         return parseComponentList(html);
@@ -91,32 +89,35 @@ const typeMap = {
 };
 
 function parseComponentProperties(html) {
-    // Extract markdown table
-    const tableMatch = html.match(/\|[\s\S]*?\n\s*\|\s*[-:]+\s*\|[\s\S]*?(?=\n\n|$)/);
+    // More flexible regex to catch the properties table
+    const tableMatch = html.match(/\|\s*Name\s*\|\s*Default Value\s*\|\s*Type\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|$)/i);
+
     if (!tableMatch) return [];
 
     const tableText = tableMatch[0];
-
-    const lines = tableText.trim().split('\n').map(line => line.trim());
+    const lines = tableText.trim().split('\n');
 
     // Find header row
-    let headerLine = lines.find(line => line.includes('| Name |') || line.includes('|Name|'));
-    if (!headerLine) {
-        headerLine = lines[0];
-    }
+    const headerIndex = lines.findIndex(line => line.includes('| Name |') || line.includes('Name | Default'));
+    if (headerIndex === -1) return [];
 
+    const headerLine = lines[headerIndex];
     const headers = headerLine.split('|')
         .map(cell => cell.trim())
         .filter(cell => cell.length > 0);
 
-    const dataLines = lines.slice(2); // skip header and separator
+    // Data starts after separator row
+    const dataStart = headerIndex + 2;
+    const dataLines = lines.slice(dataStart);
 
     return dataLines.map(line => {
-        if (!line.includes('|')) return null;
+        if (!line.trim().startsWith('|')) return null;
 
         const cells = line.split('|')
             .map(cell => cell.trim())
-            .filter((_, i) => i !== 0 && i !== cells.length - 1); // remove empty edge cells
+            .filter(cell => cell.length > 0);
+
+        if (cells.length < headers.length) return null;
 
         const obj = {};
 
@@ -124,7 +125,6 @@ function parseComponentProperties(html) {
             const key = headerMap[header] || header.toLowerCase().replace(/\s+/g, '');
             let value = cells[index] || '';
 
-            // Clean markdown formatting
             value = value.replace(/\*\*/g, '').replace(/\*/g, '').trim();
 
             if (key === "type" && value) {
@@ -140,17 +140,19 @@ function parseComponentProperties(html) {
 }
 
 function parseComponentList(html) {
-    const tableMatch = html.match(/\|[\s\S]*?\n\s*\|\s*[-:]+\s*\|[\s\S]*?(?=\n\n|$)/);
+    const tableMatch = html.match(/\|\s*Item Components?\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|$)/i);
     if (!tableMatch) return [];
 
     const tableText = tableMatch[0];
-    const lines = tableText.trim().split('\n').map(line => line.trim());
+    const lines = tableText.trim().split('\n');
 
-    // Skip header and separator
-    const dataLines = lines.slice(2);
+    const headerIndex = lines.findIndex(line => line.includes('Item Components') || line.includes('| Item Components |'));
+    if (headerIndex === -1) return [];
+
+    const dataLines = lines.slice(headerIndex + 2);
 
     return dataLines.map(line => {
-        if (!line.includes('|')) return null;
+        if (!line.trim().startsWith('|')) return null;
 
         const cells = line.split('|')
             .map(cell => cell.trim())
