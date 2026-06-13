@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     }
 }
 
-// ==================== MARKDOWN PARSER ====================
+// ==================== FINAL MARKDOWN PARSER ====================
 function parseMinecraftPage(html, isListPage) {
     if (isListPage) {
         return parseComponentList(html);
@@ -89,30 +89,26 @@ const typeMap = {
 };
 
 function parseComponentProperties(html) {
-    // Very flexible match for the properties table
-    const tableMatch = html.match(/\|\s*Name\s*\|\s*Default Value\s*\|\s*Type\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|<\/div>|$)/i);
+    // Match the exact table format on these pages
+    const tableMatch = html.match(/\|\s*Name\s*\|\s*Default Value\s*\|\s*Type\s*\|\s*Description\s*\|\s*\n\s*\|\s*[-:]+\s*\|\s*[-:]+\s*\|\s*[-:]+\s*\|\s*[-:]+\s*\|[\s\S]*?(?=\n\n|\n#|$)/i);
 
     if (!tableMatch) return [];
 
     const tableText = tableMatch[0];
     const lines = tableText.trim().split('\n').map(l => l.trim());
 
-    // Find header
-    const headerLine = lines.find(line => line.includes('| Name |') || line.includes('Name | Default Value'));
-    if (!headerLine) return [];
-
+    // Extract headers
+    const headerLine = lines[0];
     const headers = headerLine.split('|')
         .map(cell => cell.trim())
         .filter(cell => cell.length > 0);
 
-    // Find data rows (after separator)
-    const dataLines = lines.filter(line => 
-        line.startsWith('|') && 
-        !line.includes('---') && 
-        !line.includes('Name | Default Value')
-    );
+    // Data rows start from line 2
+    const dataLines = lines.slice(2);
 
     return dataLines.map(line => {
+        if (!line.startsWith('|')) return null;
+
         const cells = line.split('|')
             .map(cell => cell.trim())
             .filter(cell => cell.length > 0);
@@ -140,6 +136,7 @@ function parseComponentProperties(html) {
 }
 
 function parseComponentList(html) {
+    // For list pages (you can improve this later if needed)
     const tableMatch = html.match(/\|[\s\S]*?\n\s*\|\s*[-:]+\s*\|[\s\S]*?(?=\n\n|\n#|$)/);
     if (!tableMatch) return [];
 
