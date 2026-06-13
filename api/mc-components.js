@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     }
 }
 
-// ==================== IMPROVED MARKDOWN PARSER ====================
+// ==================== MARKDOWN PARSER ====================
 function parseMinecraftPage(html, isListPage) {
     if (isListPage) {
         return parseComponentList(html);
@@ -89,35 +89,35 @@ const typeMap = {
 };
 
 function parseComponentProperties(html) {
-    // More flexible regex to catch the properties table
-    const tableMatch = html.match(/\|\s*Name\s*\|\s*Default Value\s*\|\s*Type\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|$)/i);
+    // Very flexible match for the properties table
+    const tableMatch = html.match(/\|\s*Name\s*\|\s*Default Value\s*\|\s*Type\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|<\/div>|$)/i);
 
     if (!tableMatch) return [];
 
     const tableText = tableMatch[0];
-    const lines = tableText.trim().split('\n');
+    const lines = tableText.trim().split('\n').map(l => l.trim());
 
-    // Find header row
-    const headerIndex = lines.findIndex(line => line.includes('| Name |') || line.includes('Name | Default'));
-    if (headerIndex === -1) return [];
+    // Find header
+    const headerLine = lines.find(line => line.includes('| Name |') || line.includes('Name | Default Value'));
+    if (!headerLine) return [];
 
-    const headerLine = lines[headerIndex];
     const headers = headerLine.split('|')
         .map(cell => cell.trim())
         .filter(cell => cell.length > 0);
 
-    // Data starts after separator row
-    const dataStart = headerIndex + 2;
-    const dataLines = lines.slice(dataStart);
+    // Find data rows (after separator)
+    const dataLines = lines.filter(line => 
+        line.startsWith('|') && 
+        !line.includes('---') && 
+        !line.includes('Name | Default Value')
+    );
 
     return dataLines.map(line => {
-        if (!line.trim().startsWith('|')) return null;
-
         const cells = line.split('|')
             .map(cell => cell.trim())
             .filter(cell => cell.length > 0);
 
-        if (cells.length < headers.length) return null;
+        if (cells.length < 4) return null;
 
         const obj = {};
 
@@ -140,20 +140,15 @@ function parseComponentProperties(html) {
 }
 
 function parseComponentList(html) {
-    const tableMatch = html.match(/\|\s*Item Components?\s*\|\s*Description\s*\|[\s\S]*?(?=\n\n|\n#|$)/i);
+    const tableMatch = html.match(/\|[\s\S]*?\n\s*\|\s*[-:]+\s*\|[\s\S]*?(?=\n\n|\n#|$)/);
     if (!tableMatch) return [];
 
     const tableText = tableMatch[0];
-    const lines = tableText.trim().split('\n');
+    const lines = tableText.trim().split('\n').map(l => l.trim());
 
-    const headerIndex = lines.findIndex(line => line.includes('Item Components') || line.includes('| Item Components |'));
-    if (headerIndex === -1) return [];
-
-    const dataLines = lines.slice(headerIndex + 2);
+    const dataLines = lines.filter(line => line.startsWith('|') && !line.includes('---'));
 
     return dataLines.map(line => {
-        if (!line.trim().startsWith('|')) return null;
-
         const cells = line.split('|')
             .map(cell => cell.trim())
             .filter(cell => cell.length > 0);
