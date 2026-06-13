@@ -1,6 +1,8 @@
 export default async function handler(req, res) {
     const { type, component } = req.query;
 
+    console.log(type);
+
     if (!type || !['block', 'item', 'entity'].includes(type.toLowerCase())) {
         return res.status(400).json({
             success: false,
