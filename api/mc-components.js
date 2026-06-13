@@ -4,7 +4,7 @@ export default async function handler(req, res) {
     if (!type || !['block', 'item', 'entity'].includes(type.toLowerCase())) {
         return res.status(400).json({
             success: false,
-            error: "invalid or missing 'type' query. Must be 'block', 'item', or 'entity'.",
+            error: "Invalid or missing 'type' query. Must be 'block', 'item', or 'entity'.",
             type: type || null,
             component: component || null
         });
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         let url;
 
         if (component && component.trim() !== '') {
-            // single component
+            // component
             const comp = component.trim().toLowerCase();
             if (t === 'item') {
                 url = `https://learn.microsoft.com/en-us/minecraft/creator/reference/content/itemreference/examples/itemcomponents/minecraft_${comp}`;
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
         const response = await fetch(url);
         if (!response.ok) {
-            throw new Error(`failed to fetch page: ${response.status}`);
+            throw new Error(`Failed to fetch page: ${response.status}`);
         }
 
         const html = await response.text();
@@ -60,7 +60,6 @@ export default async function handler(req, res) {
     }
 }
 
-// ==================== PARSER ====================
 function parseMinecraftPage(html, isListPage) {
     if (isListPage) {
         return parseComponentList(html);
@@ -96,10 +95,16 @@ function parseComponentProperties(html) {
 
     const tableHtml = tableMatch[0];
 
-    // extract headers
+    // get headers safely
+    let headers = [];
     const headerMatch = tableHtml.match(/<thead>[\s\S]*?<\/thead>/i) || tableHtml;
-    let headers = [...headerMatch.matchAll(/<th[^>]*>(.*?)<\/th>/gi)]
-        .map(m => m[1].replace(/<[^>]+>/g, '').trim());
+    const thMatches = headerMatch.match(/<th[^>]*>(.*?)<\/th>/gi);
+
+    if (thMatches) {
+        headers = thMatches.map(th => 
+            th.replace(/<[^>]+>/g, '').trim()
+        );
+    }
 
     if (headers.length === 0) {
         headers = ["Name", "Default Value", "Type", "Description"];
@@ -109,14 +114,14 @@ function parseComponentProperties(html) {
 
     return rowMatches.map(rowMatch => {
         const rowHtml = rowMatch[0];
-        const cellMatches = [...rowHtml.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)];
+        const cellMatches = rowHtml.match(/<td[^>]*>([\s\S]*?)<\/td>/gi) || [];
 
         const obj = {};
 
         headers.forEach((header, index) => {
             const key = headerMap[header] || header.toLowerCase().replace(/\s+/g, '');
             let value = cellMatches[index] 
-                ? cellMatches[index][1].replace(/<[^>]+>/g, '').trim() 
+                ? cellMatches[index].replace(/<[^>]+>/g, '').trim() 
                 : '';
 
             if (key === "type" && value) {
@@ -132,26 +137,27 @@ function parseComponentProperties(html) {
 }
 
 function parseComponentList(html) {
-    // look for main component list table
     const tableMatch = html.match(/<table[^>]*>[\s\S]*?<\/table>/i);
     if (!tableMatch) return [];
 
     const tableHtml = tableMatch[0];
-    const rows = [...tableHtml.matchAll(/<tr[^>]*>[\s\S]*?<\/tr>/gi)].slice(1); // skip header
+    const rows = [...tableHtml.matchAll(/<tr[^>]*>[\s\S]*?<\/tr>/gi)].slice(1);
 
     return rows.map(rowMatch => {
         const rowHtml = rowMatch[0];
-        const cells = [...rowHtml.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)];
+        const cells = rowHtml.match(/<td[^>]*>([\s\S]*?)<\/td>/gi) || [];
 
         if (cells.length < 2) return null;
 
-        const nameCell = cells[0][1];
-        const descCell = cells[1][1];
+        const nameCell = cells[0];
+        const descCell = cells[1];
 
         const nameMatch = nameCell.match(/minecraft:([\w_]+)/i) || nameCell.match(/\[?([\w:_]+)\]?/i);
 
         return {
-            name: nameMatch ? nameMatch[1] : nameCell.replace(/<[^>]+>/g, '').trim(),
+            name: nameMatch 
+                ? nameMatch[1] 
+                : nameCell.replace(/<[^>]+>/g, '').trim(),
             desc: descCell.replace(/<[^>]+>/g, '').trim(),
             required: false
         };
