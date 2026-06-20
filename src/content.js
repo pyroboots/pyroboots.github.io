@@ -1,5 +1,6 @@
 import { art } from "/data/art.js";
 import { logs } from "/data/logs.js";
+import { formatLink, initGalleryLightbox } from "/src/lightbox.js";
 
 async function addArt() {
     const gallery = document.getElementById("gallery-container");
@@ -14,8 +15,12 @@ async function addArt() {
             metaHTML += `<p>- ${m}</p>\n`
         })
 
+        const linkHTML = a.link == undefined ? "" : `
+            <p>&nbsp;</p>
+            <a href="${a.link}" class="skill-tag gallery-link-tag" target="_blank" rel="noopener noreferrer">${formatLink(a.link)}</a>`;
+
         gallery.innerHTML += `
-            <a href="${a.link == undefined ? a.img : a.link}" class="project-link">
+            <div class="gallery-item project-link" role="button" tabindex="0" data-img="${a.img}" data-name="${a.name}" aria-label="view ${a.name}">
                 <div class="project-card">
                     <img src="${a.img}" alt="${a.name}">
                     <div class="project-info">
@@ -23,12 +28,13 @@ async function addArt() {
                         ${tagsHTML}
                         <p>&nbsp;</p>
                         ${metaHTML}
-                        ${a.link == undefined ? "" : "<p>&nbsp;</p>"}
-                        ${a.link == undefined ? "" : `<span class="skill-tag">${a.link.substring(8, a.link.length)}</span>`}
+                        ${linkHTML}
                     </div>
                 </div>
-            </a>`;
+            </div>`;
     })
+
+    initGalleryLightbox();
 }
 
 async function addLogs() {

@@ -7,6 +7,7 @@ const speed = 50;
 title.addEventListener("mouseenter", () => {
     let index = 0;
     clearInterval(loopInterval);
+    title.classList.add("glitching");
     loopInterval = setInterval(() => {
         const scrambled = originalText.split("").map((char, i) => {
             if (i === index && char.trim() !== "" && char !== "[" && char !== "]") {
@@ -18,4 +19,10 @@ title.addEventListener("mouseenter", () => {
         index++;
         if (index >= originalText.length) index = 0;
     }, speed);
+});
+
+title.addEventListener("mouseleave", () => {
+    clearInterval(loopInterval);
+    title.classList.remove("glitching");
+    title.innerText = originalText;
 });

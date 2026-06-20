@@ -9,7 +9,9 @@
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
 </head>
 <body>
+    <div id="cursor-glow" aria-hidden="true"></div>
     <canvas id="grid-canvas"></canvas>
+    <div class="fx-overlay" aria-hidden="true"></div>
 
     <div class="content">
         <header>
@@ -19,6 +21,15 @@
                 <span id="status-text">sleeping</span>
             </div>
         </header>
+    </div>
+
+    <div id="lightbox" class="lightbox" hidden>
+        <div class="lightbox-backdrop"></div>
+        <div class="lightbox-panel">
+            <button type="button" class="lightbox-close" aria-label="close viewer">[ x ]</button>
+            <img id="lightbox-img" class="lightbox-img" src="" alt="">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
     </div>
 
     <script src="src/status.js" defer></script>
