@@ -36,22 +36,29 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('resize', resize);
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'; 
     dots.forEach(dot => {
-        const dx = mouse.x - dot.baseX;
-        const dy = mouse.y - dot.baseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const pullDx = mouse.x - dot.baseX;
+        const pullDy = mouse.y - dot.baseY;
+        const dist = Math.sqrt(pullDx * pullDx + pullDy * pullDy);
         if (dist < pullRadius) {
-            const targetX = dot.baseX + dx * pullStrength;
-            const targetY = dot.baseY + dy * pullStrength;
+            const targetX = dot.baseX + pullDx * pullStrength;
+            const targetY = dot.baseY + pullDy * pullStrength;
             dot.x += (targetX - dot.x) * 0.1;
             dot.y += (targetY - dot.y) * 0.1;
         } else {
             dot.x += (dot.baseX - dot.x) * 0.1;
             dot.y += (dot.baseY - dot.y) * 0.1;
         }
+        const glowDx = dot.x - mouse.x;
+        const glowDy = dot.y - mouse.y;
+        const mouseDist = Math.sqrt(glowDx * glowDx + glowDy * glowDy);
+        const proximity = Math.max(0, 1 - mouseDist / 280);
+        const alpha = 0.22 + proximity * 0.45;
+        const radius = 1 + proximity * 0.6;
+
         ctx.beginPath();
-        ctx.arc(dot.x, dot.y, 1, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
         ctx.fill();
     });
     requestAnimationFrame(animate);

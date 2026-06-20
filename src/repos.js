@@ -17,7 +17,7 @@ async function fetchPinnedRepos() {
                         <div class="project-info">
                             <h3>[ ${repo.name} ]</h3>
                             <p>${repo.description || 'no description :('}</p>
-                            <div style="margin-top: 10px;">
+                            <div class="project-meta">
                                 <span class="skill-tag">${repo.language || 'code'}</span>
                                 <span class="skill-tag">${repo.commits} commit${repo.commits != 1 ? 's' : ''}</span>
                             </div>
