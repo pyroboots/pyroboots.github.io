@@ -10,6 +10,12 @@ const pullRadius = 180;
 const pullStrength = 0.45;
 const lineRadius = 220;
 
+const palette = [
+    [122, 162, 247],
+    [255, 158, 100],
+    [187, 154, 247],
+];
+
 function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -38,13 +44,23 @@ function initDots() {
     });
 }
 
+function paletteColor(index, alpha) {
+    const [r, g, b] = palette[index % palette.length];
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 function drawLine(a, b, mouseDist) {
-    const alpha = (1 - mouseDist / lineRadius) * 0.18;
+    const alpha = (1 - mouseDist / lineRadius) * 0.28;
     if (alpha <= 0) return;
 
+    const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
+    grad.addColorStop(0, paletteColor(0, alpha));
+    grad.addColorStop(0.5, paletteColor(1, alpha * 0.85));
+    grad.addColorStop(1, paletteColor(2, alpha));
+
     ctx.beginPath();
-    ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-    ctx.lineWidth = 0.6;
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 0.7;
     ctx.moveTo(a.x, a.y);
     ctx.lineTo(b.x, b.y);
     ctx.stroke();
@@ -96,8 +112,9 @@ function animate() {
         const glowDy = dot.y - mouse.y;
         const mouseDist = Math.sqrt(glowDx * glowDx + glowDy * glowDy);
         const proximity = Math.max(0, 1 - mouseDist / 300);
-        const alpha = 0.18 + proximity * 0.55;
-        const radius = 1 + proximity * 0.9;
+        const alpha = 0.16 + proximity * 0.6;
+        const radius = 1 + proximity * 1.1;
+        const colorIdx = Math.floor((dot.baseX + dot.baseY) / spacing) % palette.length;
 
         if (dot.right) {
             const lineDist = Math.min(mouseDist, Math.hypot(dot.right.x - mouse.x, dot.right.y - mouse.y));
@@ -109,7 +126,9 @@ function animate() {
         }
 
         ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.fillStyle = proximity > 0.15
+            ? paletteColor(colorIdx, alpha)
+            : `rgba(255, 255, 255, ${alpha * 0.55})`;
         ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
         ctx.fill();
     });

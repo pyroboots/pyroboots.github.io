@@ -22,7 +22,10 @@ async function addArt() {
         gallery.innerHTML += `
             <div class="gallery-item project-link" role="button" tabindex="0" data-img="${a.img}" data-name="${a.name}" aria-label="view ${a.name}">
                 <div class="project-card">
-                    <img src="${a.img}" alt="${a.name}">
+                    <div class="card-shine"></div>
+                    <div class="img-gradient">
+                        <img src="${a.img}" alt="${a.name}">
+                    </div>
                     <div class="project-info">
                         <h3>[ ${a.name.replaceAll(" ", "_")} ]</h3>
                         ${tagsHTML}

@@ -8,7 +8,10 @@ async function fetchPinnedRepos() {
             container.innerHTML += `
                 <a href="${repo.url}" class="project-link" target="_blank">
                     <div class="project-card">
-                        <img src="${repo.image}" alt="${repo.name}">
+                        <div class="card-shine"></div>
+                        <div class="img-gradient">
+                            <img src="${repo.image}" alt="${repo.name}">
+                        </div>
                         <div class="project-info">
                             <h3>[ ${repo.name} ]</h3>
                             <p>${repo.description || 'no description :('}</p>
