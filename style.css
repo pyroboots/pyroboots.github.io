@@ -24,7 +24,6 @@
     --grad-purple: #bb9af7;
     --grad-spectrum: linear-gradient(135deg, var(--grad-blue), var(--grad-purple), var(--grad-orange));
     --grad-spectrum-h: linear-gradient(90deg, var(--grad-blue), var(--grad-purple), var(--grad-orange));
-    --grad-fade-v: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.85));
 }
 
 /* BASE */
@@ -41,11 +40,7 @@ html {
 
 body {
     font-family: 'Ndot55-Regular', monospace;
-    background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(122, 162, 247, 0.07), transparent),
-        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(187, 154, 247, 0.05), transparent),
-        radial-gradient(ellipse 50% 35% at 0% 80%, rgba(255, 158, 100, 0.04), transparent),
-        var(--bg);
+    background: var(--bg);
     color: var(--text);
     margin: 0;
     padding: 0;
@@ -67,7 +62,7 @@ body {
     position: absolute;
     border-radius: 50%;
     filter: blur(90px);
-    opacity: 0.45;
+    opacity: 0.2;
     animation: orb-drift 24s ease-in-out infinite;
 }
 
@@ -76,7 +71,7 @@ body {
     height: min(55vw, 520px);
     top: -12%;
     left: -8%;
-    background: radial-gradient(circle, rgba(122, 162, 247, 0.55) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 68%);
     animation-delay: 0s;
 }
 
@@ -85,7 +80,7 @@ body {
     height: min(45vw, 420px);
     top: 35%;
     right: -10%;
-    background: radial-gradient(circle, rgba(187, 154, 247, 0.5) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 68%);
     animation-delay: -8s;
 }
 
@@ -94,7 +89,7 @@ body {
     height: min(40vw, 380px);
     bottom: -8%;
     left: 25%;
-    background: radial-gradient(circle, rgba(255, 158, 100, 0.4) 0%, transparent 68%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 68%);
     animation-delay: -16s;
 }
 
@@ -108,10 +103,7 @@ body {
     width: 560px;
     height: 560px;
     border-radius: 50%;
-    background:
-        radial-gradient(circle at 35% 35%, rgba(122, 162, 247, 0.14) 0%, transparent 45%),
-        radial-gradient(circle at 65% 55%, rgba(187, 154, 247, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 50% 70%, rgba(255, 158, 100, 0.08) 0%, transparent 50%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 0%, transparent 65%);
     pointer-events: none;
     z-index: 0;
     transform: translate(-50%, -50%);
@@ -165,17 +157,6 @@ header {
     position: relative;
 }
 
-header::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: min(280px, 60%);
-    height: 2px;
-    background: var(--grad-spectrum-h);
-    opacity: 0.85;
-}
-
 header h1 {
     font-size: clamp(2.8rem, 10vw, 5rem);
     margin: 0 0 12px 0;
@@ -186,16 +167,24 @@ header h1 {
     border-right: 4px solid var(--border);
     max-width: 0;
     cursor: default;
+    position: relative;
     animation:
         typing var(--type-duration) steps(12, end) forwards,
         blink 0.8s step-end 3 forwards,
         title-glow 1.2s ease calc(var(--type-duration) + 0.2s) forwards;
 }
 
-header h1.glitching {
-    text-shadow:
-        2px 0 rgba(255, 255, 255, 0.35),
-        -2px 0 rgba(255, 255, 255, 0.2);
+header h1 .title-white {
+    display: inline-block;
+}
+
+header h1 .title-hue {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    pointer-events: none;
+    clip-path: inset(100%);
 }
 
 .description {
@@ -214,15 +203,15 @@ header h1.glitching {
     border: 1px solid var(--grid-color);
     padding: 4px 10px;
     color: var(--dim-text);
-    background: linear-gradient(135deg, rgba(122, 162, 247, 0.04), rgba(187, 154, 247, 0.02));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
     transition: border-color 0.2s var(--ease-out), color 0.2s var(--ease-out), background 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
 }
 
 .desc-chip:hover {
     border-color: transparent;
-    color: var(--text);
-    background: linear-gradient(135deg, rgba(122, 162, 247, 0.12), rgba(255, 158, 100, 0.08));
-    box-shadow: 0 0 20px rgba(187, 154, 247, 0.15);
+    color: var(--bg);
+    background: var(--grad-spectrum);
+    box-shadow: 0 0 20px rgba(187, 154, 247, 0.2);
 }
 
 /* STATUS */
@@ -237,8 +226,8 @@ header h1.glitching {
     color: var(--dim-text);
     text-transform: none;
     border: 1px solid var(--grid-color);
-    background: linear-gradient(90deg, rgba(67, 181, 129, 0.07), rgba(255, 255, 255, 0.02) 45%, rgba(187, 154, 247, 0.06));
-    box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.02), 0 0 20px rgba(67, 181, 129, 0.04);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02) 45%, rgba(255, 255, 255, 0.04));
+    box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.02), 0 0 20px rgba(255, 255, 255, 0.03);
     max-width: 100%;
 }
 
@@ -292,12 +281,13 @@ header h1.glitching {
     transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out), border-color 0.15s var(--ease-out), transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
 }
 
-.skills-container .skill-tag:hover {
+.skill-tag:hover {
     background: var(--grad-spectrum);
-    background-size: 200% 200%;
-    animation: gradient-shift 2.5s ease infinite;
     color: var(--bg);
     border-color: transparent;
+}
+
+.skills-container .skill-tag:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 20px rgba(187, 154, 247, 0.25);
 }
@@ -313,49 +303,18 @@ header h1.glitching {
     text-decoration: none;
     padding: 10px 22px;
     font-weight: bold;
-    border: 1px solid transparent;
-    background:
-        linear-gradient(var(--bg), var(--bg)) padding-box,
-        var(--grad-spectrum) border-box;
+    border: 1px solid var(--border);
+    background: var(--bg);
     color: var(--text);
-    position: relative;
-    overflow: hidden;
-    transition: color 0.2s var(--ease-out), transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
-}
-
-.btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.25) 50%, transparent 80%);
-    transform: translateX(-120%);
-    transition: transform 0.45s var(--ease-out);
-}
-
-.btn::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--grad-spectrum);
-    background-size: 200% 200%;
-    opacity: 0;
-    transition: opacity 0.25s var(--ease-out);
-    z-index: -1;
+    transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out), transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
 }
 
 .btn:hover {
+    background: var(--grad-spectrum);
     color: var(--bg);
+    border-color: transparent;
     transform: translateY(-2px);
     box-shadow: 0 0 32px rgba(187, 154, 247, 0.3), 0 0 64px rgba(122, 162, 247, 0.12);
-}
-
-.btn:hover::after {
-    opacity: 1;
-    animation: gradient-shift 2s ease infinite;
-}
-
-.btn:hover::before {
-    transform: translateX(120%);
 }
 
 .btn:active {
@@ -370,20 +329,19 @@ header h1.glitching {
     margin-bottom: 2.5rem;
     border-bottom: 1px solid var(--grid-color);
     padding-bottom: 14px;
+    position: relative;
 }
 
 .tab-btn {
     background: transparent;
     color: var(--dim-text);
     border: none;
-    border-bottom: 1px solid transparent;
     font-family: inherit;
     font-size: clamp(1.2rem, 3vw, 1.8rem);
     font-weight: bold;
     cursor: pointer;
-    padding: 4px 0 6px;
-    margin-bottom: -1px;
-    transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out), text-shadow 0.2s var(--ease-out);
+    padding: 4px 0 8px;
+    transition: color 0.2s var(--ease-out), text-shadow 0.2s var(--ease-out);
 }
 
 .tab-btn:hover,
@@ -391,15 +349,18 @@ header h1.glitching {
     color: var(--text);
 }
 
-.tab-btn:hover {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+.tab-btn.active {
+    background-image: linear-gradient(var(--text), var(--text));
+    background-size: 100% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
 }
 
-.tab-btn.active {
-    border-bottom-color: transparent;
+.tab-btn:hover {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
     background-image: var(--grad-spectrum-h);
     background-size: 100% 2px;
-    background-position: bottom;
+    background-position: 0 100%;
     background-repeat: no-repeat;
 }
 
@@ -425,7 +386,7 @@ header h1.glitching {
     margin: 0 0 1.25rem 0;
     padding: 10px 14px 10px 18px;
     border: 1px solid var(--grid-color);
-    background: linear-gradient(90deg, rgba(67, 181, 129, 0.06), rgba(122, 162, 247, 0.03) 40%, transparent);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02) 40%, transparent);
     letter-spacing: 0.03em;
     text-transform: none;
     overflow-x: auto;
@@ -440,7 +401,7 @@ header h1.glitching {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: linear-gradient(180deg, var(--terminal-green), var(--grad-blue));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.12));
 }
 
 .tab-container > p:not(.terminal-label),
@@ -487,25 +448,15 @@ header h1.glitching {
     display: inline-block;
 }
 
-.gallery-link-tag:hover {
-    background: var(--text);
-    color: var(--bg);
-}
-
 .project-card:hover .gallery-link-tag {
     border-color: var(--bg);
     color: var(--bg);
     background: transparent;
 }
 
-.project-card:hover .gallery-link-tag:hover {
-    background: var(--bg);
-    color: var(--text);
-}
-
 .project-card {
     border: 1px solid var(--grid-color);
-    background: linear-gradient(160deg, rgba(122, 162, 247, 0.03) 0%, var(--bg) 35%, rgba(187, 154, 247, 0.02) 100%);
+    background: var(--bg);
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -521,7 +472,7 @@ header h1.glitching {
         125deg,
         transparent 30%,
         rgba(255, 255, 255, 0.03) 45%,
-        rgba(187, 154, 247, 0.06) 50%,
+        rgba(255, 255, 255, 0.04) 50%,
         rgba(255, 255, 255, 0.03) 55%,
         transparent 70%
     );
@@ -535,6 +486,14 @@ header h1.glitching {
 .gallery-item:hover .project-card .card-shine,
 .project-card:hover .card-shine {
     opacity: 1;
+    background: linear-gradient(
+        125deg,
+        transparent 30%,
+        rgba(122, 162, 247, 0.06) 45%,
+        rgba(187, 154, 247, 0.08) 50%,
+        rgba(255, 158, 100, 0.05) 55%,
+        transparent 70%
+    );
 }
 
 .project-card::before,
@@ -606,7 +565,7 @@ header h1.glitching {
     background: linear-gradient(
         to top,
         rgba(0, 0, 0, 0.75) 0%,
-        rgba(122, 162, 247, 0.08) 35%,
+        rgba(255, 255, 255, 0.05) 35%,
         transparent 65%
     );
     pointer-events: none;
@@ -674,15 +633,17 @@ header h1.glitching {
     background: transparent;
 }
 
-.project-card:hover .skill-tag:hover {
-    background: var(--bg);
-    color: var(--text);
+.project-card:hover .skill-tag:hover,
+.project-card:hover .gallery-link-tag:hover {
+    background: var(--grad-spectrum);
+    color: var(--bg);
+    border-color: transparent;
 }
 
 /* BLOG */
 .blog-post {
     cursor: default;
-    background: linear-gradient(90deg, rgba(187, 154, 247, 0.04), transparent 35%);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent 35%);
     transition: box-shadow 0.3s var(--ease-out);
 }
 
@@ -740,12 +701,12 @@ header h1.glitching {
 }
 
 .blog-note {
-    border-left: 3px solid var(--grad-purple);
+    border-left: 3px solid var(--grid-color);
     padding: 8px 0 8px 16px;
     margin: 1rem 0;
     color: var(--dim-text);
     font-style: italic;
-    background: linear-gradient(90deg, rgba(187, 154, 247, 0.1), rgba(255, 158, 100, 0.04), transparent);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), transparent);
 }
 
 .blog-post:hover .project-info,
@@ -778,10 +739,7 @@ header h1.glitching {
 
 @keyframes title-glow {
     to {
-        text-shadow:
-            0 0 24px rgba(122, 162, 247, 0.2),
-            0 0 48px rgba(187, 154, 247, 0.12),
-            0 0 12px rgba(255, 255, 255, 0.15);
+        text-shadow: 0 0 30px rgba(255, 255, 255, 0.12);
     }
 }
 
@@ -789,12 +747,6 @@ header h1.glitching {
     0%, 100% { transform: translate(0, 0) scale(1); }
     33%      { transform: translate(4%, 6%) scale(1.06); }
     66%      { transform: translate(-3%, 2%) scale(0.94); }
-}
-
-@keyframes gradient-shift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
 }
 
 @keyframes fadeInUp {
@@ -852,9 +804,10 @@ header h1.glitching {
     box-shadow:
         0 8px 40px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.07),
-        0 0 48px rgba(122, 162, 247, 0.06);
+        0 0 48px rgba(255, 255, 255, 0.03);
     position: relative;
     overflow: hidden;
+    transition: box-shadow 0.3s var(--ease-out);
 }
 
 .neofetch-layout::before {
@@ -864,9 +817,9 @@ header h1.glitching {
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--grad-spectrum-h);
-    opacity: 0.75;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     z-index: 2;
+    transition: background 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
 }
 
 .neofetch-layout::after {
@@ -874,10 +827,29 @@ header h1.glitching {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(ellipse at 0% 0%, rgba(122, 162, 247, 0.07), transparent 55%),
-        radial-gradient(ellipse at 100% 100%, rgba(255, 158, 100, 0.05), transparent 55%);
+        radial-gradient(ellipse at 0% 0%, rgba(255, 255, 255, 0.03), transparent 55%),
+        radial-gradient(ellipse at 100% 100%, rgba(255, 255, 255, 0.02), transparent 55%);
     pointer-events: none;
     z-index: 0;
+    transition: background 0.3s var(--ease-out);
+}
+
+.neofetch-layout:hover {
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07),
+        0 0 48px rgba(122, 162, 247, 0.1);
+}
+
+.neofetch-layout:hover::before {
+    background: var(--grad-spectrum-h);
+    opacity: 0.85;
+}
+
+.neofetch-layout:hover::after {
+    background:
+        radial-gradient(ellipse at 0% 0%, rgba(122, 162, 247, 0.08), transparent 55%),
+        radial-gradient(ellipse at 100% 100%, rgba(255, 158, 100, 0.06), transparent 55%);
 }
 
 .fetch-art {
@@ -959,7 +931,7 @@ header h1.glitching {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--grad-blue), var(--grad-purple));
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.1));
     border-radius: 3px;
 }
 
@@ -1022,8 +994,9 @@ body.lightbox-open {
 }
 
 .lightbox-close:hover {
-    background: var(--text);
+    background: var(--grad-spectrum);
     color: var(--bg);
+    border-color: transparent;
 }
 
 .lightbox-img {
